@@ -1,19 +1,22 @@
 {
-  "name": "@as-integrations/bun",
+  "name": "@chrisenglert/as-integrations-bun",
   "description": "An Apollo Server integration for use with Bun",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "author": {
     "name": "Christian Englert",
     "email": "chris.englert@live.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ChrisEnglert/apollo-server-integration-bun"
+    "url": "git+https://github.com/ChrisEnglert/apollo-server-integration-bun.git"
   },
   "homepage": "https://github.com/ChrisEnglert/apollo-server-integration-bun",
   "bugs": {
     "url": "https://github.com/ChrisEnglert/apollo-server-integration-bun/issues"
   },
+  "files": [
+    "dist"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
