@@ -11,26 +11,34 @@ export function apolloIntegration<TContext extends BaseContext>({
 }) {
   return {
     async fetch(req: Request): Promise<Response> {
-      const httpGraphQLRequest = await getRequest(req)
-
-      const gqlResponse = await apolloServer.executeHTTPGraphQLRequest({
-        httpGraphQLRequest,
-        context: () => context(req),
-      })
-
-      const responseBody = gqlResponse.body as {
-        kind: "complete"
-        string: string
-      }
-
-      const res = new Response(responseBody.string, {
-        status: gqlResponse.status || 200,
-        headers: gqlResponse.headers.entries(),
-      })
-      return res
+      return await apolloRequest(req, apolloServer, context)
     },
     port,
   }
+}
+
+export async function apolloRequest<TContext extends BaseContext>(
+  req: Request,
+  apolloServer: ApolloServer<TContext>,
+  context: (req: Request) => Promise<TContext>,
+): Promise<Response> {
+  const httpGraphQLRequest = await getRequest(req)
+
+  const gqlResponse = await apolloServer.executeHTTPGraphQLRequest({
+    httpGraphQLRequest,
+    context: () => context(req),
+  })
+
+  const responseBody = gqlResponse.body as {
+    kind: "complete"
+    string: string
+  }
+
+  const res = new Response(responseBody.string, {
+    status: gqlResponse.status || 200,
+    headers: gqlResponse.headers.entries(),
+  })
+  return res
 }
 
 async function getRequest(req: Request): Promise<HTTPGraphQLRequest> {
