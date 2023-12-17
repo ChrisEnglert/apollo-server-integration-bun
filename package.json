@@ -6,6 +6,11 @@
     "name": "Christian Englert",
     "email": "chris.englert@live.com"
   },
+  "keywords": [
+    "apollo",
+    "apollo-server",
+    "bun"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ChrisEnglert/apollo-server-integration-bun.git"
