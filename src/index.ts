@@ -1,3 +1,1 @@
-import { apolloIntegration } from "./apollo"
-
-export default apolloIntegration
+export * from "./apollo"
