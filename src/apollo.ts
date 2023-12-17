@@ -7,7 +7,7 @@ export function apolloIntegration<TContext extends BaseContext>({
 }: {
   apolloServer: ApolloServer<TContext>
   port: number
-  context: (req: Request) => Promise<TContext>
+  context: (req: Request) => TContext | Promise<TContext>
 }) {
   return {
     async fetch(req: Request): Promise<Response> {
@@ -20,13 +20,13 @@ export function apolloIntegration<TContext extends BaseContext>({
 export async function apolloRequest<TContext extends BaseContext>(
   req: Request,
   apolloServer: ApolloServer<TContext>,
-  context: (req: Request) => Promise<TContext>,
+  context: (req: Request) => TContext | Promise<TContext>,
 ): Promise<Response> {
   const httpGraphQLRequest = await getRequest(req)
 
   const gqlResponse = await apolloServer.executeHTTPGraphQLRequest({
     httpGraphQLRequest,
-    context: () => context(req),
+    context: async () => context(req),
   })
 
   const responseBody = gqlResponse.body as {
