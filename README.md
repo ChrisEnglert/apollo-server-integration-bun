@@ -1,5 +1,5 @@
 <a href='https://www.apollographql.com/'><img src='https://avatars.githubusercontent.com/u/17189275?s=200' style="border-radius: 6px; margin-right: 6px" height='100' alt='Apollo Server'></a>
-
+<a href="https://bun.sh" rel="nofollow"><img src="https://user-images.githubusercontent.com/709451/182802334-d9c42afe-f35d-4a7b-86ea-9985f73f20c3.png" alt="Logo" height="100" style="max-width: 100%;"></a>
 
 # Apollo Server Integration for bun
 
@@ -14,8 +14,9 @@
 
 ### **Exclusive**
 ```typescript
-import { ApolloServer, BaseContext } from "@apollo/server";
-import apolloIntegration from "@as-integrations/bun";
+import { apolloIntegration } from "@as-integrations/bun"
+import { ApolloServer, BaseContext } from "@apollo/server"
+
 // ...
 
 const apolloServer = new ApolloServer<BaseContext>({
@@ -38,7 +39,8 @@ const server = Bun.serve(
 
 ```typescript
 import { apolloRequest } from "@as-integrations/bun"
-import { getApollo } from "./apollo"
+import { ApolloServer, BaseContext } from "@apollo/server"
+
 //..
 
 const apolloServer = new ApolloServer<BaseContext>({
