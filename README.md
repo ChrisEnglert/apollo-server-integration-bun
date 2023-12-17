@@ -12,6 +12,7 @@
 
 ## **Usage**
 
+### **Exclusive**
 ```typescript
 import { ApolloServer, BaseContext } from "@apollo/server";
 import apolloIntegration from "@as-integrations/bun";
@@ -32,3 +33,28 @@ const server = Bun.serve(
   )
 
 ```
+
+### **Combined**
+
+```typescript
+import { apolloRequest } from "@as-integrations/bun"
+import { getApollo } from "./apollo"
+//..
+
+const apolloServer = new ApolloServer<BaseContext>({
+  typeDefs,
+  resolvers,
+})
+
+await apolloServer.start()
+
+const server = Bun.serve({
+  async fetch(req) {
+    const url = new URL(req.url)
+    if (url.pathname === "/") return new Response("Home page!")
+    if (url.pathname === "/graphql") return apolloRequest(req, apolloServer, async (req) => getContext(req))
+    return new Response("404!")
+  },
+  port,
+})
+``
