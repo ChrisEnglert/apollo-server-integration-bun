@@ -4,9 +4,9 @@ import {
   defineIntegrationTestSuite,
 } from "@apollo/server-integration-testsuite"
 import { describe } from "bun:test"
-import { apolloIntegration } from "./apollo"
+import { apolloRequest } from "./apollo"
 
-describe("Apollo integration test", () => {
+describe("Apollo apolloRequest test", () => {
   defineIntegrationTestSuite(
     async (serverOptions: ApolloServerOptions<BaseContext>, testOptions?: CreateServerForIntegrationTestsOptions) => {
       // console.log('serverOptions', serverOptions);
@@ -19,18 +19,22 @@ describe("Apollo integration test", () => {
       })
       await apolloServer.start()
 
-      const server = Bun.serve(
-        apolloIntegration({
-          apolloServer,
-          port,
-          context: async (req) => {
+      const server = Bun.serve({
+        async fetch(req) {
+          const url = new URL(req.url)
+          if (url.pathname === "/") return new Response("Home page!", { status: 200 })
+          if (url.pathname === "/graphql") return apolloRequest(req, apolloServer, async (req) => {
             return testOptions?.context || {}
-          },
-        }),
-      )
+          })
+          return new Response("404!", {
+            status: 404
+          })
+        },
+        port,
+      })
 
       const url = server.url.toString()
-      // console.log('returning server url', url);
+      console.log('returning server url', url);
 
       return {
         server: apolloServer,
@@ -42,7 +46,6 @@ describe("Apollo integration test", () => {
     },
     {
       noIncrementalDelivery: true,
-      serverIsStartedInBackground: true,
     },
   )
 })

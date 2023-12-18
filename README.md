@@ -14,7 +14,7 @@
 
 ### **Exclusive**
 ```typescript
-import { apolloIntegration } from "@as-integrations/bun"
+import { apolloIntegration } from "@chrisenglert/as-integrations-bun"
 import { ApolloServer, BaseContext } from "@apollo/server"
 
 // ...
@@ -38,7 +38,7 @@ const server = Bun.serve(
 ### **Combined**
 
 ```typescript
-import { apolloRequest } from "@as-integrations/bun"
+import { apolloRequest } from "@chrisenglert/as-integrations-bun"
 import { ApolloServer, BaseContext } from "@apollo/server"
 
 //..

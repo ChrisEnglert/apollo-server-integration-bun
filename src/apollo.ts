@@ -48,7 +48,7 @@ async function getRequest(req: Request): Promise<HTTPGraphQLRequest> {
 
   const method = req.method
   const headers = new HeaderMap(req.headers)
-  const body = getBody(method, await req.text(), headers.get("content-type"))
+  const body = getBody(method, await req.text(), headers.get("content-type") || "")
 
   return {
     method,
@@ -61,9 +61,9 @@ async function getRequest(req: Request): Promise<HTTPGraphQLRequest> {
 function getBody(
   method: string | undefined,
   body: string | null | undefined,
-  contentType: string | undefined,
+  contentType: string,
 ): object | null {
-  const isValidContentType = contentType?.startsWith("application/json")
+  const isValidContentType = contentType.startsWith("application/json") || contentType.startsWith("application/graphql-response+json")
   const isValidPostRequest = method === "POST" && isValidContentType
 
   if (isValidPostRequest) {
